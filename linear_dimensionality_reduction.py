@@ -68,4 +68,4 @@ if __name__ == "__main__":
 
 
 	reductioned_Y = m_omega.T @ mu_x + m_mu
-	cv2.imwrite("reductioned_img20.jpg",reductioned_Y)
+	cv2.imwrite("reductioned_img.jpg",reductioned_Y)
