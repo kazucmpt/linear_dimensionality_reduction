@@ -5,7 +5,6 @@ import cv2
 import sys
 
 if __name__ == "__main__":
-
 	Y = cv2.imread(sys.argv[1],0)
 	Y = cv2.resize(Y,(64*4,64*4))
 
@@ -31,9 +30,7 @@ if __name__ == "__main__":
 	Sigma_x_hat = np.random.rand(M,M)
 
 	for i in tqdm(range(MAXITER)):
-
 		#mu is reloated
-
 		sum1 = np.zeros((D,1))
 		for n in range(N):
 			sum1 = sum1 + Y[:,n].reshape((D,1)) - np.dot(m_omega.T,mu_x[:,n].reshape((M,1)))
@@ -42,7 +39,6 @@ if __name__ == "__main__":
 		Sigma_mu_hat = np.linalg.inv(N * sigma_y**(-2) * np.identity(D) + np.linalg.inv(Sigma_mu))
 
 		#W is reloated
-
 		for d in range(D):
 			sum2 = np.zeros((M,1))
 			sum3 = np.zeros((M,M))
@@ -54,9 +50,8 @@ if __name__ == "__main__":
 			m_omega[:,d] = sigma_y**(-2) * np.dot(Sigma_oemga_hat , sum2).reshape((1,M))
 
 		Sigma_oemga_hat = np.linalg.inv(sigma_y**(-2) * sum3 * np.linalg.inv(Sigma_omega))
-
-		#X is reloated
-	     
+		
+		#X is reloated   
 		sum4 = np.zeros((M,M))
 		for d in range(D):
 			sum4 = sum4 + np.dot(m_omega[:,d].reshape((M,1)),m_omega[:,d].reshape((1,M))) + Sigma_oemga_hat
@@ -65,7 +60,5 @@ if __name__ == "__main__":
 		for n in range(N):		
 			mu_x[:,n] = ( sigma_y**(-2)*Sigma_x_hat @ m_omega @ (Y[:,n].reshape((D,1)) - m_mu) ).reshape((1,M))
 		
-
-
 	reductioned_Y = m_omega.T @ mu_x + m_mu
 	cv2.imwrite("reductioned_img.jpg",reductioned_Y)
